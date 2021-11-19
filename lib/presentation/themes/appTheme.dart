@@ -9,11 +9,12 @@ class AppThemes {
       backgroundColor: Colors.white,
       elevation: 0,
     ),
+    
     primarySwatch: Colors.blue,
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: Colors.blue[900],
     ),
-    iconTheme: IconThemeData(color: Colors.grey[700],size: 20),
+    iconTheme: IconThemeData(color: Colors.grey[700], size: 20),
     tabBarTheme: TabBarTheme(
       unselectedLabelColor: Colors.black,
       labelColor: Colors.blue,
@@ -40,6 +41,9 @@ class AppThemes {
     textTheme: TextTheme(
       bodyText1: TextStyle(fontSize: 14, color: Colors.grey[800]),
       bodyText2: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      headline1: TextStyle(fontSize: 18,color: Colors.white,fontWeight:FontWeight.normal),
+      headline2: TextStyle(fontSize: 18,color: Colors.black,fontWeight:FontWeight.normal),
+      headline3: TextStyle(fontWeight:FontWeight.normal),
     ),
   );
 }

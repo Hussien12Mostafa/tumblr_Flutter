@@ -1,45 +1,53 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:tumbler/date/models/user.dart';
-import 'package:like_button/like_button.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class ShowPost extends StatelessWidget {
-  User post;
+import 'package:tumbler/date/models/post.dart';
 
+
+
+import 'package:tumbler/presentation/widget/networkImage.dart';
+
+import 'package:tumbler/presentation/widget/report.dart';
+import 'package:tumbler/presentation/widget/rowButtonsPost.dart';
+
+import 'package:tumbler/presentation/widget/showNameUser.dart';
+
+class ShowPost extends StatefulWidget {
+  Post post;
+  bool isLike = false;
   ShowPost({Key? key, required this.post}) : super(key: key);
+
+  @override
+  State<ShowPost> createState() => _ShowPostState();
+}
+
+class _ShowPostState extends State<ShowPost> {
+  
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * .06,
-          ),
+        TextButton(
+          onPressed: () {},
           child: Row(
             children: [
-              CachedNetworkImage(
-                imageUrl: post.imageUrl,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                height: MediaQuery.of(context).size.height * .1,
-                width: MediaQuery.of(context).size.width * .1,
-              ),
+              GetNetworkImage(imageUrl: widget.post.ownerPost.imageUrl),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * .03),
-                  child: Text(
-                    post.name,
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
+                  child: ShowNameUser(name: widget.post.ownerPost.name),
                 ),
               ),
               FloatingActionButton(
-                onPressed: () {},
+                heroTag: null,
+                onPressed: () {
+                  reportSheet(context);
+                },
                 child: Icon(
                   Icons.more_horiz,
                   color: IconTheme.of(context).color,
@@ -48,51 +56,11 @@ class ShowPost extends StatelessWidget {
             ],
           ),
         ),
+        Html(data: widget.post.data,),
+        ButtonsPost(post: widget.post),
         Container(
-          height: 100,
-          color: Colors.red,
-        ),
-        Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .03),
-              child: FloatingActionButton(
-                onPressed: () {},
-                child: Text(
-                  '10 notes',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .29),
-              child: FloatingActionButton(
-                onPressed: () {},
-                child: Icon(
-                  Icons.share,
-                  color: IconTheme.of(context).color,
-                ),
-              ),
-            ),
-            FloatingActionButton(
-                onPressed: () {},
-                child: Icon(
-                  Icons.chat,
-                  color: IconTheme.of(context).color,
-                )),
-            FloatingActionButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.ac_unit_sharp,
-                color: IconTheme.of(context).color,
-              ),
-            ),
-            LikeButton(
-              
-            ),
-          ],
+          height: MediaQuery.of(context).size.height * .02,
+          color: Colors.black,
         )
       ],
     );

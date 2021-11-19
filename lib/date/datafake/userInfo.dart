@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
+import 'package:tumbler/date/models/post.dart';
 import 'package:tumbler/date/models/user.dart';
 
 final List<User> onlineUsers = [
@@ -102,3 +103,114 @@ final List<User> onlineUsers = [
         'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
   ),
 ];
+final List<Post> postsData = [
+  Post(
+    ownerPost: onlineUsers[0],
+    data:
+        """post text <span style="color:red;">is here</span> <br> <img src="https://www.vbetnews.com/wp-content/uploads/2020/08/P2020-08-25-Salsburg_Liverpool-83.jpg.jpg" /> 
+""",
+    numOfLikes: 3,
+    numOfReblog: 1,
+    m: {
+      0: {onlineUsers[0]: "bla bla"},
+      1: {onlineUsers[1]: "why"},
+      2: {onlineUsers[2]: "i dot know"},
+      3: {onlineUsers[3]: "ok"},
+      4: {onlineUsers[4]: "good"},
+      5: {onlineUsers[5]: "fine"},
+      6: {onlineUsers[0]: "bla bla"},
+      
+      7: {onlineUsers[8]: "very good"},
+      8: {onlineUsers[9]: "that is good"},
+      9: {onlineUsers[10]: "good"},
+      10: {onlineUsers[0]: "bla bla"},
+      11: {onlineUsers[12]: "oh my god"},
+      12: {onlineUsers[13]: "again"},
+    },
+    likesThisPost: {
+      onlineUsers[1]: 'like',
+      onlineUsers[2]: 'reblog',
+      onlineUsers[3]: 'like',
+      onlineUsers[4]: 'like'
+    },
+  ),
+  Post(
+    ownerPost: onlineUsers[0],
+    data:
+        """ <span>Hi</span> <br> <img src="https://wishmemorning.com/wp-content/uploads/2021/01/Sunflower-Post-Featured-Image.jpg" /> 
+""",
+    numOfLikes: 10,
+    numOfReblog: 1,
+    m: {
+      0: {onlineUsers[0]: "good morning"},
+      1: {onlineUsers[1]: "hi"},
+      2: {onlineUsers[2]: "good morning"},
+      3: {onlineUsers[3]: "good morning"},
+      4: {onlineUsers[4]: "good morning"},
+      5: {onlineUsers[5]: "good morning"},
+      6: {onlineUsers[0]: "good morning"},
+     
+      7: {onlineUsers[8]: "good morning"},
+      8: {onlineUsers[9]: "good morning"},
+      9: {onlineUsers[10]: "good morning"},
+      10: {onlineUsers[0]: "good morning"},
+      11: {onlineUsers[12]: "good morning"},
+      12: {onlineUsers[13]: "good morning"},
+    },
+    likesThisPost: {
+      onlineUsers[1]: 'like',
+      onlineUsers[2]: 'reblog',
+      onlineUsers[3]: 'like',
+      onlineUsers[4]: 'like',
+      onlineUsers[5]: 'like',
+      onlineUsers[6]: 'like',
+      onlineUsers[7]: 'like',
+      onlineUsers[8]: 'like',
+      onlineUsers[9]: 'like',
+      onlineUsers[10]: 'like',
+      onlineUsers[11]: 'like',
+    },
+  ),
+   Post(
+    ownerPost: onlineUsers[0],
+    data:
+        """ <span>Hi</span> <br> <img src="https://wishmemorning.com/wp-content/uploads/2021/01/Sunflower-Post-Featured-Image.jpg" /> 
+""",
+    numOfLikes: 10,
+    numOfReblog: 1,
+    m: {
+      0: {onlineUsers[0]: "good morning"},
+      1: {onlineUsers[1]: "hi"},
+      2: {onlineUsers[2]: "good morning"},
+      3: {onlineUsers[3]: "good morning"},
+      4: {onlineUsers[4]: "good morning"},
+      5: {onlineUsers[5]: "good morning"},
+      6: {onlineUsers[0]: "good morning"},
+      
+      7: {onlineUsers[8]: "good morning"},
+      8: {onlineUsers[9]: "good morning"},
+      9: {onlineUsers[10]: "good morning"},
+      10: {onlineUsers[0]: "good morning"},
+      11: {onlineUsers[12]: "good morning"},
+      12: {onlineUsers[13]: "good morning"},
+      13: {onlineUsers[13]: "bbbbbbbbbb"},
+    },
+    likesThisPost: {
+      onlineUsers[1]: 'like',
+      onlineUsers[2]: 'reblog',
+      onlineUsers[3]: 'like',
+      onlineUsers[4]: 'like',
+      onlineUsers[5]: 'like',
+      onlineUsers[6]: 'like',
+      onlineUsers[7]: 'like',
+      onlineUsers[8]: 'like',
+      onlineUsers[9]: 'like',
+      onlineUsers[10]: 'like',
+      onlineUsers[11]: 'like',
+    },
+  ),
+];
+User currentUser = User(
+    name: 'HussienMostafa',
+    imageUrl:
+        'https://mir-s3-cdn-cf.behance.net/project_modules/1400/d1191d41834581.5607082148f50.jpg');

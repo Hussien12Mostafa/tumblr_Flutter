@@ -5,26 +5,47 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:tumbler/main.dart';
+class LikeTest {
+  static String likeTest(bool isLike) {
+    if (isLike == false) {
+      return 'remove from list LikesPost';
+    } else {
+      return 'added to list LikesPost';
+    }
+  }
+}
+
+class TextAddComment {
+  static String textAddComment(String? comment) {
+    if (comment == null || comment == '') {
+      return 'Do not add comment';
+    } else {
+      return 'added comment';
+    }
+  }
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('test comment string if empty do not make anything ', () {
+    var result = TextAddComment.textAddComment('');
+    expect(result, 'Do not add comment');
+  });
+  test('test comment string if null do not make anything ', () {
+    var result = TextAddComment.textAddComment(null);
+    expect(result, 'Do not add comment');
+  });
+  test('test comment string if has comment add it ', () {
+    var result = TextAddComment.textAddComment('hello this is good image');
+    expect(result, 'added comment');
+  });
+  test('test like if true he  likes post', () {
+    var result = LikeTest.likeTest(true);
+    expect(result, 'added to list LikesPost');
+  });
+  test('test like if false he does not like post', () {
+    var result = LikeTest.likeTest(false);
+    expect(result, 'remove from list LikesPost');
   });
 }

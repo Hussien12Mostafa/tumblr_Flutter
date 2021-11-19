@@ -14,7 +14,7 @@ class Profile extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-         
+          backgroundColor: Colors.white,
           toolbarHeight: 200,
           bottom: TabBar(
             tabs: [
