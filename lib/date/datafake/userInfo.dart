@@ -119,7 +119,6 @@ final List<Post> postsData = [
       4: {onlineUsers[4]: "good"},
       5: {onlineUsers[5]: "fine"},
       6: {onlineUsers[0]: "bla bla"},
-      
       7: {onlineUsers[8]: "very good"},
       8: {onlineUsers[9]: "that is good"},
       9: {onlineUsers[10]: "good"},
@@ -149,7 +148,6 @@ final List<Post> postsData = [
       4: {onlineUsers[4]: "good morning"},
       5: {onlineUsers[5]: "good morning"},
       6: {onlineUsers[0]: "good morning"},
-     
       7: {onlineUsers[8]: "good morning"},
       8: {onlineUsers[9]: "good morning"},
       9: {onlineUsers[10]: "good morning"},
@@ -171,7 +169,7 @@ final List<Post> postsData = [
       onlineUsers[11]: 'like',
     },
   ),
-   Post(
+  Post(
     ownerPost: onlineUsers[0],
     data:
         """ <span>Hi</span> <br> <img src="https://wishmemorning.com/wp-content/uploads/2021/01/Sunflower-Post-Featured-Image.jpg" /> 
@@ -186,7 +184,6 @@ final List<Post> postsData = [
       4: {onlineUsers[4]: "good morning"},
       5: {onlineUsers[5]: "good morning"},
       6: {onlineUsers[0]: "good morning"},
-      
       7: {onlineUsers[8]: "good morning"},
       8: {onlineUsers[9]: "good morning"},
       9: {onlineUsers[10]: "good morning"},
@@ -214,3 +211,4 @@ User currentUser = User(
     name: 'HussienMostafa',
     imageUrl:
         'https://mir-s3-cdn-cf.behance.net/project_modules/1400/d1191d41834581.5607082148f50.jpg');
+bool isLogIn=false;
