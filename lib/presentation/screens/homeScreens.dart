@@ -8,19 +8,20 @@ import 'package:tumbler/presentation/screens/postsHome.dart';
 import 'package:tumbler/presentation/screens/profile.dart';
 import 'package:tumbler/presentation/screens/search.dart';
 
-import 'logInScreens/whatShouldWeCall.dart';
+
 
 
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
-
+static const String routeName = "home";
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
   static const List<Widget> _pages = <Widget>[
     Posts(),
     Search(),

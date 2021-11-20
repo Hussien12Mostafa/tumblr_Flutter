@@ -9,8 +9,6 @@ import 'package:tumbler/date/models/post.dart';
 import 'package:tumbler/presentation/widget/buttonNotesLikesAndReblog.dart';
 import 'package:tumbler/presentation/widget/comments.dart';
 
-
-
 class Notes extends StatefulWidget {
   Notes({Key? key}) : super(key: key);
   static const String routeName = "notes";
@@ -23,6 +21,7 @@ class _NotesState extends State<Notes> {
   TextEditingController controller = TextEditingController();
 
   final focusNode = FocusNode();
+  
   @override
   Widget build(BuildContext context) {
     Post p = ModalRoute.of(context)!.settings.arguments as Post;
@@ -65,7 +64,10 @@ class _NotesState extends State<Notes> {
                 decoration: InputDecoration(hintText: 'Say something nice'),
               )),
               TextButton(
-                onPressed: () {
+                onPressed:
+
+                    /// check text field if empty not add comment if text field has text i add comment
+                    () {
                   if (controller.text == '') {
                   } else {
                     commentsData.add(

@@ -17,6 +17,7 @@ class ButtonsPost extends StatefulWidget {
 }
 
 class _ButtonsPostState extends State<ButtonsPost> {
+  /// check if user like post or dislike if like i added him in list likes for this post if not i removed him
   Future<bool> onLikeButtonTapped(bool isLiked) async {
     /// send your request here
     // final bool success= await sendRequest();

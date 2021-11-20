@@ -107,7 +107,7 @@ final List<Post> postsData = [
   Post(
     ownerPost: onlineUsers[0],
     data:
-        """post text <span style="color:red;">is here</span> <br> <img src="https://www.vbetnews.com/wp-content/uploads/2020/08/P2020-08-25-Salsburg_Liverpool-83.jpg.jpg" /> 
+        """post text <span style="color:red;">is here</span> <br> <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/11/06/17/mohamed-salah.jpg?width=982&height=726" /> 
 """,
     numOfLikes: 3,
     numOfReblog: 1,

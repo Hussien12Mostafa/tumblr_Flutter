@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 
 class CheckIsDisabled {
+/// check if the html empty or not if empty the post button will be disable if not the post button will be enable
   static bool isdisabledfunction(String? s) {
     bool temp = true;
     if (s == null || s == '') {

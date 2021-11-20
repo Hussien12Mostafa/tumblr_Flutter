@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       theme: AppThemes.lightTheme,
       routes: {
         '/': (_) => SignUpIn(),
+        HomeScreen.routeName: (context) => HomeScreen(),
         Notes.routeName: (context) => Notes(),
         LikesPost.routeName: (context) => LikesPost(),
         CreatePost.routeName: (context) => CreatePost(),
