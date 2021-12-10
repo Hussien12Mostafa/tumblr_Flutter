@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:tumbler/presentation/screens/logInScreens/logIn.dart';
 import 'package:tumbler/presentation/screens/logInScreens/signUp.dart';
+import 'package:tumbler/presentation/widget/slider.dart';
 
 class SignUpIn extends StatefulWidget {
+  static const String routeName = "SignUpIn";
   @override
   _SignUpInState createState() => _SignUpInState();
 }
@@ -13,12 +15,9 @@ class _SignUpInState extends State<SignUpIn> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/OIP.jpg'),
-                  fit: BoxFit.fill)),
+      child: Stack(children: [
+        SliderImages(),
+        Center(
           child: Column(
             children: [
               SizedBox(
@@ -26,7 +25,7 @@ class _SignUpInState extends State<SignUpIn> {
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 1, horizontal: 1),
-                width: 300,
+                width: MediaQuery.of(context).size.width * .8,
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -35,17 +34,21 @@ class _SignUpInState extends State<SignUpIn> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    primary: Colors.white,
                     shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0),
                     ),
                   ),
-                  child: Text('Sign up'),
+                  child: Text(
+                    'Sign up',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 1, horizontal: 1),
-                width: 300,
+                width: MediaQuery.of(context).size.width * .8,
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -54,18 +57,22 @@ class _SignUpInState extends State<SignUpIn> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    primary: Colors.white,
                     shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0),
                     ),
                   ),
-                  child: Text('Log in'),
+                  child: Text(
+                    'Log in',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
           ),
         ),
-      ),
+      ]),
     );
   }
 }
