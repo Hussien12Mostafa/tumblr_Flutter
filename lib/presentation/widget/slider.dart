@@ -6,8 +6,11 @@ class SliderImages extends StatelessWidget {
 
   @override
   final urlImages = [
-    'https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711',
-    'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+    "assets/images/1 .jpg",
+    "assets/images/2.png",
+    "assets/images/3.jpg",
+    "assets/images/4.jpg",
+    "assets/images/5.jpg",
   ];
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class SliderImages extends StatelessWidget {
 
   Widget buildImage(String urlImage, int index) => Container(
       color: Colors.grey,
-      child: Image.network(
+      child: Image.asset(
         urlImage,
         fit: BoxFit.fill,
       ));

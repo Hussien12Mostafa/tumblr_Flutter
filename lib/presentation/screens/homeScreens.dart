@@ -1,9 +1,8 @@
-// ignore_for_file: file_names, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_element, prefer_const_literals_to_create_immutables, unused_field
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_element, prefer_const_literals_to_create_immutables, unused_field, curly_braces_in_flow_control_structures
 
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
+
 import 'package:tumbler/date/datafake/userInfo.dart';
-import 'package:tumbler/presentation/screens/createPost.dart';
 
 import 'package:tumbler/presentation/screens/message.dart';
 import 'package:tumbler/presentation/screens/postsHome.dart';
@@ -36,7 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
   /// function to select active screen
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      if (!signIn && index > 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+      } else
+        _selectedIndex = index;
     });
   }
 
@@ -66,10 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: Center(
-          child: signIn || _selectedIndex < 2
-              ? _pages.elementAt(_selectedIndex)
-              : _pageSignUp,
-        ));
+        body: Center(child: _pages.elementAt(_selectedIndex)));
   }
 }

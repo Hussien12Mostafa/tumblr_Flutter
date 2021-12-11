@@ -1,11 +1,12 @@
 // ignore_for_file: file_names, prefer_const_literals_to_create_immutables, unrelated_type_equality_checks, prefer_final_fields, prefer_const_constructors, use_key_in_widget_constructors
 
 //import 'package:dicee/date/models/usersEmail.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:tumbler/date/models/emailLogIn.dart';
 import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
 import 'package:tumbler/logic/functions/isEmailValid.dart';
+import 'package:tumbler/presentation/screens/logInScreens/emailLogin1.dart';
 import 'package:tumbler/presentation/screens/logInScreens/wordForgetPassword.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -23,6 +24,7 @@ class _EnterPasswordState extends State<ForgetPassword> {
 
   @override
   void initState() {
+    _email.text = Sendemail!;
     super.initState();
   }
 
@@ -40,13 +42,13 @@ class _EnterPasswordState extends State<ForgetPassword> {
                 FlatButton(
                   onPressed: () async {
                     if (isEmailValid(_email.text) == null) {
-                      AutoLoginModel? user = await forgetPassword(_email.text);
+                      bool? user = await forgetPassword(_email.text);
                       setState(() async {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => wordForgetPassword()));
-                        _user = user;
+                        
                       });
                     }
                   },
@@ -88,15 +90,7 @@ class _EnterPasswordState extends State<ForgetPassword> {
                     ),
                     validator: isEmailValid),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .1,
-              ),
-              _user == null
-                  ? Container()
-                  : Text(
-                      "Info: Email ${_user!.email}    is created sucessfully ${_user!.createdAt.toIso8601String()}",
-                      style: TextStyle(color: Colors.black),
-                    ),
+             
             ]),
           ),
         ),

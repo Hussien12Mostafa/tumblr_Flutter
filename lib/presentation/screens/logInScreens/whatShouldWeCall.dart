@@ -10,13 +10,13 @@ import 'package:tumbler/date/datafake/userInfo.dart';
 import 'package:tumbler/date/models/userSignUp.dart';
 import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
 import 'package:tumbler/logic/functions/isEmailValid.dart';
+
 import 'package:tumbler/logic/functions/isNameValid.dart';
 import 'package:tumbler/logic/functions/isPasswordValid.dart';
 
 import 'package:tumbler/presentation/screens/logInScreens/logIn.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   static const String routeName = "SignUpScreen";
@@ -30,17 +30,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
   TextEditingController _name = TextEditingController();
-
+  bool visable = false;
   Future<void> Send(String email, String password, String name) async {
-    final bool? user = await signUp(email, password, name);
-    setState(() {
-      _user = UserSignUp(
-          name: "congratulation",
-          age: 15,
-          email: "fdgdgh",
-          password: "sdfhgsdhdfh");
-      print("ddddddd");
-    });
+    bool test = await signUp(email, password, name);
+    if (test) {
+      signIn = true;
+      Navigator.of(context).popUntil((route) => false);
+    } else {
+      setState(() {
+        visable = true;
+      });
+    }
   }
 
   void initState() {
@@ -72,6 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        BackButton(color: Colors.white),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .6,
                         ),
@@ -82,6 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             final String name = _name.text;
                             if (formGlobalKey.currentState!.validate()) {
                               formGlobalKey.currentState!.save();
+
                               Send(email, password, name);
                             }
                           },
@@ -136,6 +138,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         validator: isEmailValid),
                   ),
+                  Visibility(
+                      visible: visable,
+                      child: Text(
+                        "Email already exist",
+                        style: TextStyle(color: Colors.red),
+                      )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .02,
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * .1,
@@ -159,6 +170,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: isPasswordValid,
                     ),
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .01,
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * .1,
@@ -172,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         validator: isNameValid),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * .3,
+                    height: MediaQuery.of(context).size.height * .25,
                   ),
                   RichText(
                     text: TextSpan(children: <TextSpan>[
@@ -206,13 +220,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ]),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .05,
-                  ),
-                  _user == null
-                      ? Container()
-                      : Text(
-                          "Info: Email ${_user!.email}  Password: ${_user!.password}   BlogName: ${_user!.name} is created sucessfully ")
                 ],
               ),
             ),

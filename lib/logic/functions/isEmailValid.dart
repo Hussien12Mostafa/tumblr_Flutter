@@ -1,8 +1,7 @@
-
 // ignore_for_file: file_names
 
 String? isEmailValid(String? email) {
- 
+  if (email == null) return "Email required";
   if (email != null && email.isEmpty) {
     return "Email required";
   } else {

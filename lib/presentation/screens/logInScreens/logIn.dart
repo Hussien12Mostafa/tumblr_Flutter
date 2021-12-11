@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:tumbler/presentation/screens/logInScreens/emailLogIn.dart';
+import 'package:tumbler/presentation/screens/logInScreens/emailLogin1.dart';
 import 'package:tumbler/presentation/widget/slider.dart';
 
 class Login extends StatefulWidget {
@@ -29,8 +29,10 @@ class _LoginState extends State<Login> {
               child: ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginEmail()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginEmailContinue()));
                   });
                 },
                 style: ElevatedButton.styleFrom(

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, unrelated_type_equality_checks
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, unrelated_type_equality_checks, prefer_const_constructors
 
 //import 'package:dicee/date/models/usersEmail.dart';
 

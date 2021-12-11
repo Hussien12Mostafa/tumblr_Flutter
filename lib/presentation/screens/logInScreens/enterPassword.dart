@@ -1,14 +1,17 @@
-// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, unrelated_type_equality_checks, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables, unrelated_type_equality_checks, prefer_const_constructors, curly_braces_in_flow_control_structures
 
 //import 'package:dicee/date/models/usersEmail.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tumbler/date/datafake/userInfo.dart';
 import 'package:tumbler/date/models/password.dart';
-import 'package:tumbler/date/models/userSignUp.dart';
 import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
 import 'package:tumbler/logic/functions/isEmailValid.dart';
 import 'package:tumbler/logic/functions/isPasswordValid.dart';
+import 'package:tumbler/presentation/screens/homeScreens.dart';
+import 'package:tumbler/presentation/screens/logInScreens/emailLogin1.dart';
 import 'package:tumbler/presentation/screens/logInScreens/forgetPassword.dart';
+
 
 class EnterPassword extends StatefulWidget {
   @override
@@ -21,9 +24,11 @@ class _EnterPasswordState extends State<EnterPassword> {
   TextEditingController _email = TextEditingController();
   TextEditingController _pass = TextEditingController();
   EmailPasswordSend? _user;
-
+  bool visiableEmail = false;
+  bool visiablePassword = false;
   @override
   void initState() {
+    _email.text = Sendemail!;
     super.initState();
   }
 
@@ -46,18 +51,27 @@ class _EnterPasswordState extends State<EnterPassword> {
                         onPressed: () async {
                           if (_formGlobalKey.currentState!.validate()) {
                             _formGlobalKey.currentState!.save();
-                            final bool? user =
+                            final String result =
                                 await checkSignInUser(_email.text, _pass.text);
-                            setState(() {
-                              _user = EmailPasswordSend(
-                                  email: "dshgsdfhsdfh",
-                                  password: "dfhdfhdh",
-                                  id: "5",
-                                  createdAt: DateTime.now());
-                            });
-
-                            //  Navigator.push(context,
-                            //    MaterialPageRoute(builder: (context) => Homescreen())); //Navigate to home screen.
+                            if (result == "LogIn Successfully (<:>)")
+                              setState(() {
+                                signIn = true;
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    HomeScreen.routeName,
+                                    (Route<dynamic> route) => false);
+                              });
+                            else if (result == "Email Is Not Found (<:>)") {
+                              setState(() {
+                                visiableEmail = true;
+                                visiablePassword = false;
+                              });
+                            } else if (result == "InCorrect Password (<:>)") {
+                              setState(() {
+                                visiableEmail = false;
+                                visiablePassword = true;
+                              });
+                            }
+                            //Navigate to home screen.
                           }
                         },
                         child: Text('Log in',
@@ -79,6 +93,12 @@ class _EnterPasswordState extends State<EnterPassword> {
                       ),
                       validator: isEmailValid),
                 ),
+                Visibility(
+                    visible: visiableEmail,
+                    child: Text(
+                      "Email not found",
+                      style: TextStyle(color: Colors.red),
+                    )),
                 Container(
                   width: MediaQuery.of(context).size.width * .8,
                   height: MediaQuery.of(context).size.height * .1,
@@ -104,6 +124,12 @@ class _EnterPasswordState extends State<EnterPassword> {
 
                   //validator: isPasswordValid,
                 ),
+                Visibility(
+                    visible: visiablePassword,
+                    child: Text(
+                      "incorrect password ",
+                      style: TextStyle(color: Colors.red),
+                    )),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .4,
                 ),
@@ -122,12 +148,7 @@ class _EnterPasswordState extends State<EnterPassword> {
                                   builder: (context) => (ForgetPassword())));
                         }),
                 ),
-                _user == null
-                    ? Container()
-                    : Text(
-                        "Info: Email ${_user!.email}  Password: ${_user!.password}  is created sucessfully ${_user!.createdAt.toIso8601String()}",
-                        style: TextStyle(color: Colors.black),
-                      )
+              
               ]),
             ),
           ),
