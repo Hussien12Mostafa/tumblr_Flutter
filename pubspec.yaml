@@ -41,6 +41,9 @@ dependencies:
   fluttericon: ^2.0.0
   provider: ^6.0.1
   html_editor_enhanced: ^2.4.0+1
+  http: ^0.13.4
+  url_launcher: ^6.0.17
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +71,11 @@ flutter:
   assets:
     - assets/images/p1.png
     - assets/images/OIP.jpg
+    - assets/images/1 .jpg
+    - assets/images/2.png
+    - assets/images/3.jpg
+    - assets/images/4.jpg
+    - assets/images/5.jpg
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -6,6 +6,7 @@ import 'package:tumbler/date/datafake/userInfo.dart';
 import 'package:tumbler/date/models/comments.dart';
 import 'package:tumbler/date/models/likesAndReblog.dart';
 import 'package:tumbler/date/models/post.dart';
+import 'package:tumbler/logic/functions/commentFieldCheck.dart';
 import 'package:tumbler/presentation/widget/buttonNotesLikesAndReblog.dart';
 import 'package:tumbler/presentation/widget/comments.dart';
 
@@ -21,7 +22,7 @@ class _NotesState extends State<Notes> {
   TextEditingController controller = TextEditingController();
 
   final focusNode = FocusNode();
-  
+
   @override
   Widget build(BuildContext context) {
     Post p = ModalRoute.of(context)!.settings.arguments as Post;
@@ -68,8 +69,8 @@ class _NotesState extends State<Notes> {
 
                     /// check text field if empty not add comment if text field has text i add comment
                     () {
-                  if (controller.text == '') {
-                  } else {
+                  bool result = commentsCheck(controller.text);
+                  if (result) {
                     commentsData.add(
                         CommentsData(s: currentUser, comment: controller.text));
                     p.m.addAll({
@@ -77,9 +78,9 @@ class _NotesState extends State<Notes> {
                     });
                     controller.clear();
                     focusNode.unfocus();
-
                     setState(() {});
                   }
+                  
                 },
                 child: Text(
                   'Reply',
