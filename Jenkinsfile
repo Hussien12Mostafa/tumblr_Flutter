@@ -9,12 +9,7 @@ pipeline
     }
     
     stages{
-        stage('checkout'){
-            steps{
-             checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_tocken', url: 'https://github.com/Hussien12Mostafa/Tumplr_Flutter.git']]])   
-            }
-        }
-        
+    
         stage('build Docker image'){
             steps{
                 script{
