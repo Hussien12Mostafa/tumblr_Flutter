@@ -3,6 +3,8 @@
 import 'package:tumbler/date/models/post.dart';
 import 'package:tumbler/date/models/user.dart';
 
+late final String ageInScreen;
+bool signIn = false;
 final List<User> onlineUsers = [
   User(
     name: 'David Brooks',
@@ -211,4 +213,4 @@ User currentUser = User(
     name: 'HussienMostafa',
     imageUrl:
         'https://mir-s3-cdn-cf.behance.net/project_modules/1400/d1191d41834581.5607082148f50.jpg');
-bool isLogIn=false;
+bool isLogIn = false;

@@ -5,6 +5,7 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:like_button/like_button.dart';
 import 'package:tumbler/date/datafake/userInfo.dart';
 import 'package:tumbler/date/models/post.dart';
+import 'package:tumbler/logic/functions/like.dart';
 import 'package:tumbler/presentation/widget/notes.dart';
 import 'package:tumbler/presentation/widget/share.dart';
 
@@ -21,14 +22,14 @@ class _ButtonsPostState extends State<ButtonsPost> {
   Future<bool> onLikeButtonTapped(bool isLiked) async {
     /// send your request here
     // final bool success= await sendRequest();
-    if (!isLiked) {
+    bool result=likeTest(isLiked);
+    if (result) {
       widget.post.numOfLikes = widget.post.numOfLikes + 1;
-       widget.post.likesThisPost.addAll({currentUser: 'like'});
+      widget.post.likesThisPost.addAll({currentUser: 'like'});
+    } else {
+      widget.post.numOfLikes = widget.post.numOfLikes - 1;
+      widget.post.likesThisPost.remove(currentUser);
     }
-   else{
-     widget.post.numOfLikes = widget.post.numOfLikes -1;
-     widget.post.likesThisPost.remove(currentUser);
-   }
     isLiked = !isLiked;
     setState(() {});
 

@@ -4,38 +4,36 @@
 
 import 'package:flutter/material.dart';
 import 'package:tumbler/logic/functions/isEmailValid.dart';
-import 'package:tumbler/presentation/screens/logInScreens/emailLogin1.dart';
-import 'package:tumbler/presentation/screens/logInScreens/enterPassword.dart';
 
-String? _Sendemail;
+import 'package:tumbler/presentation/widget/slider.dart';
+
+import 'emailLogIn.dart';
+
+String? Sendemail;
 bool display = true;
 
-class LoginEmail extends StatefulWidget {
+class LoginEmailContinue extends StatefulWidget {
   @override
-  _LoginEmailState createState() => _LoginEmailState();
+  _LoginEmailStateContinue createState() => _LoginEmailStateContinue();
 }
 
 TextEditingController Textfieldemail = TextEditingController();
 
-class _LoginEmailState extends State<LoginEmail> {
+class _LoginEmailStateContinue extends State<LoginEmailContinue> {
   TextEditingController _email = TextEditingController();
 
-  GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    _email.text = Sendemail!;
-    super.initState();
-  }
+  GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Form(
-            key: _formGlobalKey,
-            child: Column(
-              children: [
+        child: Stack(children: [
+          SliderImages(),
+          Center(
+            child: Form(
+              key: formGlobalKey,
+              child: Column(children: [
                 Text(
                   't',
                   style: TextStyle(
@@ -44,10 +42,10 @@ class _LoginEmailState extends State<LoginEmail> {
                       fontSize: 200),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: MediaQuery.of(context).size.height * .03,
                 ),
                 Container(
-                  width: 300,
+                  width: MediaQuery.of(context).size.width * .8,
                   height: 50,
                   padding: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
                   child: TextFormField(
@@ -62,50 +60,40 @@ class _LoginEmailState extends State<LoginEmail> {
                   height: MediaQuery.of(context).size.height * .05,
                 ),
                 Container(
-                  width: 300,
-                  height: 50,
+                  width: MediaQuery.of(context).size.width * .8,
+                  height: MediaQuery.of(context).size.height * .1,
                   color: Colors.blue,
                   child: FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Send Magic Link',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 300,
-                  height: 50,
-                  color: Colors.grey,
-                  child: FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_formGlobalKey.currentState!.validate()) {
-                          //Add the  here
-                          _formGlobalKey.currentState!.save();
+                    onPressed: () async {
+                      if (formGlobalKey.currentState!.validate()) {
+                        //Add the  here
+                        {
+                          formGlobalKey.currentState!.save();
 
                           setState(() {
                             //Check if the email exists, after posting of course.
+                            Sendemail = _email.text;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EnterPassword()));
+                                    builder: (context) => (LoginEmail())));
                           });
                         }
-                      });
+                      }
                     },
                     child: Text(
-                      'Enter password',
+                      'Continue',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.normal),
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20),
                     ),
                   ),
                 ),
-              ],
+              ]),
             ),
           ),
-        ),
+        ]),
       ),
     );
   }

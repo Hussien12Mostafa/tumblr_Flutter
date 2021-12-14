@@ -8,13 +8,13 @@ import 'package:tumbler/date/models/post.dart';
 import 'package:tumbler/presentation/widget/networkImage.dart';
 import 'package:tumbler/presentation/widget/showNameUser.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-
+/// class for design screen likes
 class LikesPost extends StatelessWidget {
   static const String routeName = "LikesPost";
   LikesPost({Key? key}) : super(key: key);
   
   int numOfNotes = postsData[0].numOfLikes+postsData[0].numOfReblog;
-  
+  /// function widget to design screen and print users like this post
   @override
   Widget build(BuildContext context) {
     Post p = ModalRoute.of(context)!.settings.arguments as Post;

@@ -4,19 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:tumbler/logic/functions/checkIsDisablePost.dart';
 
-class CheckIsDisabled {
-/// check if the html empty or not if empty the post button will be disable if not the post button will be enable
-  static bool isdisabledfunction(String? s) {
-    bool temp = true;
-    if (s == null || s == '') {
-      temp = true;
-    } else {
-      temp = false;
-    }
-    return temp;
-  }
-}
+/// class validate button post
+
 
 class CreatePost extends StatefulWidget {
   CreatePost({Key? key}) : super(key: key);
@@ -25,12 +16,15 @@ class CreatePost extends StatefulWidget {
   _CreatePostState createState() => _CreatePostState();
 }
 
+/// class to design this screen and make all functionality of create post
 class _CreatePostState extends State<CreatePost> {
   bool isdisaled = true;
 
   String txt = '';
 
   HtmlEditorController controller = HtmlEditorController();
+
+  /// function widget to design screen and make functionality
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +91,7 @@ class _CreatePostState extends State<CreatePost> {
               controller: controller, //required
               //other options
               callbacks: Callbacks(onChangeContent: (String? s) {
-                isdisaled = CheckIsDisabled.isdisabledfunction(s);
+                isdisaled = isdisabledfunction(s);
                 setState(() {});
               }),
               htmlEditorOptions: HtmlEditorOptions(
