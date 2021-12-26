@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
       theme: AppThemes.lightTheme,
       //home: SliderImages(),
       routes: {
-        '/': (_) => SignUpIn(),
+        '/':(_)=>HomeScreen(),
+      //  '/': (_) => SignUpIn(),
         HomeScreen.routeName: (context) => HomeScreen(),
         Notes.routeName: (context) => Notes(),
         LikesPost.routeName: (context) => LikesPost(),

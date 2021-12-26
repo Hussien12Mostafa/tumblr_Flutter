@@ -35,10 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
   /// function to select active screen
   void _onItemTapped(int index) {
     setState(() {
-      if (!signIn && index > 1) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpScreen()));
-      } else
+     // if (!signIn && index > 1) {
+     //   Navigator.push(
+     //       context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+     // } else
         _selectedIndex = index;
     });
   }

@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttericon/iconic_icons.dart';
-import 'package:tumbler/date/datafake/userInfo.dart';
-import 'package:tumbler/date/models/comments.dart';
-import 'package:tumbler/date/models/likesAndReblog.dart';
-import 'package:tumbler/date/models/post.dart';
+import 'package:tumbler/date/models/notes.dart';
+
+import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
+
 import 'package:tumbler/logic/functions/commentFieldCheck.dart';
 import 'package:tumbler/presentation/widget/buttonNotesLikesAndReblog.dart';
 import 'package:tumbler/presentation/widget/comments.dart';
@@ -25,25 +25,40 @@ class _NotesState extends State<Notes> {
 
   @override
   Widget build(BuildContext context) {
-    Post p = ModalRoute.of(context)!.settings.arguments as Post;
-    List<CommentsData> commentsData = toList(p.m);
-    List<LikesAndReblog> listOfLikesAndReblog = toListLike(p.likesThisPost);
+    bool load = false, loadComment = false;
+    List<dynamic> l =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    List<Note> notes = l[1];
+    int counterNotes = l[0];
+
+    Future<String?> _makeComment(String a, String b, String c) async {
+      return await makeComment(a, b, c);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${p.numOfLikes + p.numOfReblog} notes",
+          "${counterNotes} notes",
           style: Theme.of(context).textTheme.headline1,
         ),
         centerTitle: false,
       ),
       body: Column(
         children: [
-          ButtonsLikesAndReblog(p: p),
+          // ButtonsLikesAndReblog(
+          //     commentsPost: commentsPost,
+          //     counts: counts,
+          //     likesUsers: likesUsers,
+          //     reBlogPost: reBlogPost),
           Expanded(
             child: ListView.builder(
-              itemCount: commentsData.length,
+              itemCount: notes.length,
               itemBuilder: (Context, index) {
-                return Comments(c: commentsData[index]);
+                if (notes[index].noteType == "comment") {
+                  print(notes[index].text);
+                  return Comments(note: notes[index]);
+                }
+                return Container();
               },
             ),
           ),
@@ -68,19 +83,25 @@ class _NotesState extends State<Notes> {
                 onPressed:
 
                     /// check text field if empty not add comment if text field has text i add comment
-                    () {
+                    () async {
                   bool result = commentsCheck(controller.text);
                   if (result) {
-                    commentsData.add(
-                        CommentsData(s: currentUser, comment: controller.text));
-                    p.m.addAll({
-                      p.m.length: {currentUser: controller.text}
-                    });
+                    // String? s = await _makeComment(
+                    //     "619957113df6b45019c42d06", post.id, controller.text);
+                    //   if (s != null) {
+                    print("add comment");
+                    // commentsPost.add({
+                    //   "commentingBlogId": "619957113df6b45019c42d06",
+                    //   "commentingBlogTitle": "Untitled",
+                    //   "text": controller.text,
+                    //   "_id": "dd"
+                    // });
+                    print("added comment");
                     controller.clear();
                     focusNode.unfocus();
                     setState(() {});
+                    //  }
                   }
-                  
                 },
                 child: Text(
                   'Reply',

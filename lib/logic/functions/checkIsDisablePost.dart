@@ -1,7 +1,7 @@
   /// check if the html empty or not if empty the post button will be disable if not the post button will be enable
    // ignore_for_file: file_names
 
-   bool isdisabledfunction(String? s) {
+   bool isDisAbleFunction(String? s) {
     /// variable to return it
     bool temp = true;
 
