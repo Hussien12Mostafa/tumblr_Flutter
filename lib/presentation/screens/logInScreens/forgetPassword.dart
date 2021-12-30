@@ -42,14 +42,15 @@ class _EnterPasswordState extends State<ForgetPassword> {
                 FlatButton(
                   onPressed: () async {
                     if (isEmailValid(_email.text) == null) {
-                      bool? user = await forgetPassword(_email.text);
-                      setState(() async {
+                       await forgotPass(_email.text);
+                      
+                        
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => wordForgetPassword()));
                         
-                      });
+                      
                     }
                   },
                   child: Text('Submit',

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tumbler/date/datafake/userInfo.dart';
 import 'package:tumbler/presentation/screens/homeScreens.dart';
+import 'package:tumbler/presentation/screens/logInScreens/interestedPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tumbler/logic/functions/checkAge.dart';
 
@@ -45,7 +46,7 @@ class _AgeState extends State<Age> {
                                   formGlobalKey.currentState!.save();
                                   ageInScreen = _Age.text;
                                   Navigator.of(context)
-                                      .pushNamed(HomeScreen.routeName);
+                                      .pushNamed(InterestedPage.routeName);
                                 }
                               }
                             : null,

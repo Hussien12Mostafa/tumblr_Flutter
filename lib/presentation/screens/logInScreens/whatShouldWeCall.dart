@@ -1,6 +1,6 @@
 // ignore_for_file: annotate_overrides, deprecated_member_use, avoid_print, non_constant_identifier_names, curly_braces_in_flow_control_structures, file_names, prefer_const_constructors
 
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 
@@ -18,6 +18,8 @@ import 'package:tumbler/presentation/screens/logInScreens/logIn.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../homeScreens.dart';
+
 class SignUpScreen extends StatefulWidget {
   static const String routeName = "SignUpScreen";
   const SignUpScreen({Key? key}) : super(key: key);
@@ -32,10 +34,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _name = TextEditingController();
   bool visable = false;
   Future<void> Send(String email, String password, String name) async {
+    print("inside it");
     bool test = await signUp(email, password, name);
+    print("test=$test");
     if (test) {
+      print("here");
       signIn = true;
-      Navigator.of(context).popUntil((route) => false);
+       Navigator.of(context).pushNamedAndRemoveUntil(
+                                    HomeScreen.routeName,
+                                    (Route<dynamic> route) => false);
+                              
     } else {
       setState(() {
         visable = true;
@@ -84,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if (formGlobalKey.currentState!.validate()) {
                               formGlobalKey.currentState!.save();
 
-                              Send(email, password, name);
+                              await Send(email, password, name);
                             }
                           },
                           child: Text('Done',
@@ -167,7 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               });
                             }),
                       ),
-                      validator: isPasswordValid,
+                      validator: isPasswordCompliant,
                     ),
                   ),
                   SizedBox(

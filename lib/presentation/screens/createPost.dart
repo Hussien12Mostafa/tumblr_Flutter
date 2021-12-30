@@ -1,26 +1,29 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_null_comparison, unused_field, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_null_comparison, unused_field, prefer_final_fields, unnecessary_cast
 
 import 'dart:convert';
 import 'dart:developer';
-
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:tumbler/date/datafake/userInfo.dart';
-import 'package:tumbler/date/models/blog.dart';
+import 'package:tumbler/date/models/post.dart';
+import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
 import 'package:tumbler/logic/functions/checkIsDisablePost.dart';
 
 class CreatePost extends StatefulWidget {
-  CreatePost({Key? key}) : super(key: key);
   static const String routeName = "CreatePost";
-  Blog userInfo = userBlodId;
+
+  CreatePost({
+    Key? key,
+  }) : super(key: key);
+
   @override
-  _CreatePost createState() => _CreatePost();
+  _CreatePostState createState() => _CreatePostState();
 }
 
-class _CreatePost extends State<CreatePost> {
+class _CreatePostState extends State<CreatePost> {
   bool isdisaled = true;
 
   String txt = '';
@@ -33,20 +36,22 @@ class _CreatePost extends State<CreatePost> {
     String txt2;
     for (final e in txt) {
       txt2 = '';
-      if (e.contains("<img")) {
-        const start = "base64,";
+      if (e.contains("img")) {
+        const start = "src=";
         const end = "data-filename";
         final startIndex = e.indexOf(start);
         final endIndex = e.indexOf(end, startIndex + start.length);
         txt2 = e.substring(startIndex + start.length, endIndex);
         txt2 = txt2.replaceAll('"', "");
         txt2 = txt2.substring(0, txt2.length - 1);
+
         listofimgsbase64.add(txt2);
 
         // log("\n```````````````````````````````````````````````````````````````````````````````````````````````````");
 
       }
     }
+
     return listofimgsbase64;
   }
 
@@ -56,8 +61,8 @@ class _CreatePost extends State<CreatePost> {
     String txt2;
     for (final e in txt) {
       txt2 = '';
-      if (e.contains("<video")) {
-        const start = "base64,";
+      if (e.contains("video ")) {
+        const start = "src=";
         const end = "data-filename";
         final startIndex = e.indexOf(start);
         final endIndex = e.indexOf(end, startIndex + start.length);
@@ -66,21 +71,21 @@ class _CreatePost extends State<CreatePost> {
         txt2 = txt2.substring(0, txt2.length - 1);
         listofvideosbase64.add(txt2);
 
-        // log("\n```````````````````````````````````````````````````````````````````````````````````````````````````");
+        // log("\n```````````````");
 
       }
     }
     return listofvideosbase64;
   }
-
-  List<String> getbase64ofaudio(List<String> txt) {
+List<String> getbase64ofaudio(List<String> txt) {
     List<String> listofaudiosbase64 = [];
 
     String txt2;
     for (final e in txt) {
       txt2 = '';
-      if (e.contains("<audio")) {
-        const start = "base64,";
+      if (e.contains("audio ")) {
+        print('inside if');
+        const start = "src=";
         const end = "data-filename";
         final startIndex = e.indexOf(start);
         final endIndex = e.indexOf(end, startIndex + start.length);
@@ -89,22 +94,20 @@ class _CreatePost extends State<CreatePost> {
         txt2 = txt2.substring(0, txt2.length - 1);
         listofaudiosbase64.add(txt2);
 
-        // log("\n```````````````````````````````````````````````````````````````````````````````````````````````````");
+        // log("\n```````````````");
 
       }
     }
     return listofaudiosbase64;
   }
-
-  String inserturlsintohtml(
+String inserturlsintohtml(
       String html,
-      List<String> imgsurls,
-      List<String> videosurls,
-      List<String> audiosurls,
+      List<dynamic> imgsurls,
+      List<dynamic> videosurls,
+      List<dynamic> audiosurls,
       List<String> base64ofimgs,
       List<String> base64ofvideos,
       List<String> base64ofaudios) {
-
     String finalhtml = html;
     for (var i = 0; i < base64ofimgs.length; i++) {
       finalhtml = finalhtml.replaceAll(base64ofimgs[i], imgsurls[i]);
@@ -140,20 +143,22 @@ class _CreatePost extends State<CreatePost> {
         splitedfinal2.add(e);
     }
     String finalhtml2 = '';
-    // for (var e in splitedfinal2) {
-    //   log(e);
-    //   log('\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-    // }
+ 
     for (var e in splitedfinal2) {
       finalhtml2 = finalhtml2 + e + '>';
     }
 
     return finalhtml2.substring(0, finalhtml2.length - 1);
   }
+  
 
   HtmlEditorController controller = HtmlEditorController();
+
   @override
   Widget build(BuildContext context) {
+    List<dynamic> l =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -172,33 +177,64 @@ class _CreatePost extends State<CreatePost> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(3.0),
-            child: ElevatedButton(
+            child: TextButton(
               onPressed: isdisaled
                   ? null
                   : () async {
-                      txt = await controller.getText();
-                      List<String> splithtml = txt.split("<");
+                      String postHTML = await controller.getText();
 
-                      log("*********************************************************************");
-                      log(inserturlsintohtml(
-                          txt,
-                          [
-                            'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-                            'https://i.pinimg.com/originals/a7/3d/6e/a73d6e4ac85c6a822841e449b24c78e1.jpg'
-                          ],
-                          [
-                            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
-                          ],
-                          [
-                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
-                          ],
-                          getbase64ofimg(splithtml),
-                          getbase64ofvideo(splithtml),
-                          getbase64ofaudio(splithtml)));
-                          //send post to backend
-                          //popscreen
+                      List<String> splithtml = postHTML.split('<');
+
+                      Map<String, dynamic>? backEndRes;
+                      Map<String, dynamic>? backEndResVideo;
+                      Map<String, dynamic>? backEndResaudio;
+                      List<String> imagesUpload = getbase64ofimg(splithtml);
+                      List<String> vidoeUpload = getbase64ofvideo(splithtml);
+                      List<String> audioUpload = getbase64ofaudio(splithtml);
+                      if (imagesUpload.length != 0) {
+                        print(imagesUpload[0]);
+                        backEndRes = await uploadImages(imagesUpload);
+                      }
+                      if (vidoeUpload.length != 0) {
+                        print(vidoeUpload[0]);
+                        backEndResVideo = await uploadImages(vidoeUpload);
+                      }
+                      if (audioUpload.length != 0) {
+                        print(audioUpload[0]);
+                        backEndResaudio= await uploadImages(audioUpload);
+                      }
+                      List<dynamic> imageUrls=[];
+                      List<dynamic> audioUrls=[];
+                      List<dynamic> videoUrl=[];
+                      if (backEndRes != null) {
+                        imageUrls = backEndRes["images"];
+                      }
+                      if(backEndResVideo != null){
+                        videoUrl = backEndResVideo["images"];
+                      }
+                       if(backEndResaudio != null){
+                        audioUrls = backEndResaudio["images"];
+                      }
+                      postHTML = inserturlsintohtml(postHTML, imageUrls,
+                          videoUrl, audioUrls,imagesUpload, vidoeUpload,audioUpload);
+                      log(postHTML);
+                      
+                      if (l[0] == '') {
+                        String? res = await createPosts(blogUser!.id, postHTML)
+                            as String?;
+                        print("create $res");
+                      } else if (l[0] == 'edit') {
+                        String? res =
+                            await editPosts((l[1] as Post).id, postHTML)
+                                as String?;
+                        print("create $res");
+                      } else {
+                        String? res = await createPostsWithTag(
+                            blogUser!.id, postHTML, l[1]) as String?;
+                        print("create $res");
+                      }
+
+                      Navigator.of(context).pop();
                     },
               child: Text(
                 'Post',
@@ -210,7 +246,26 @@ class _CreatePost extends State<CreatePost> {
                   primary: isdisaled ? Colors.grey[350] : Colors.blue),
             ),
           ),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert, size: 30))
+          l[0] == "edit"
+              ? TextButton(
+                  onPressed: () {
+                    setState(() {
+                      controller.insertHtml((l[1] as Post).postHtml);
+                    });
+                  },
+                  child: Text(
+                    'show your post',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder(), primary: Colors.blue))
+              : Container(),
+          IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                size: 30,
+              ),
+              onPressed: () {})
         ],
       ),
       body: SingleChildScrollView(
@@ -221,12 +276,23 @@ class _CreatePost extends State<CreatePost> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: CircleAvatar(
-                      radius: 20,
-                      backgroundImage: NetworkImage(widget.userInfo.avatar!=null?widget.userInfo.avatar as String:"https://www.bing.com/images/search?view=detailV2&ccid=PE6Gywnh&id=C44A4DED5828D540F9DF40993F5000232337DBD0&thid=OIP.PE6Gywnh99762kleGcaCygHaEo&mediaurl=https%3a%2f%2fhddesktopwallpapers.in%2fwp-content%2fuploads%2f2015%2f09%2fperfect-background-680x425.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.3c4e86cb09e1f7defada495e19c682ca%3frik%3d0Ns3IyMAUD%252bZQA%26pid%3dImgRaw%26r%3d0%26sres%3d1%26sresct%3d1%26srh%3d800%26srw%3d1280&exph=425&expw=680&q=background&simid=608028306860299676&FORM=IRPRST&ck=6F6896CB6C9D6EE7946485C19B072384&selectedIndex=3&ajaxhist=0&ajaxserp=0")),
+                    radius: 20,
+                    backgroundImage: NetworkImage((blogUser!.avatar!) != null
+                        ? blogUser!.avatar! != "default"
+                            ? blogUser!.avatar! as String
+                            : "https://wallpapertops.com/walldb/original/5/9/b/56244.jpg"
+                        : "https://wallpapertops.com/walldb/original/5/9/b/56244.jpg"),
+                  ),
                 ),
-                Text(widget.userInfo.title!=null?widget.userInfo.title as String:"error data")
+                Text(blogUser!.title! != null ? (blogUser!.title!) : "defult")
               ],
             ),
+            l[0] == "tag"
+                ? Text(
+                    "Tag :#${l[1]}",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                : Container(),
             HtmlEditor(
               controller: controller, //required
               //other options

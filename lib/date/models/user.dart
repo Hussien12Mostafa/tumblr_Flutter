@@ -36,7 +36,7 @@ class User {
   List<String> blogsId;
   List<dynamic> favoriteBlogs;
   List<String> followingBlogs;
-  List<dynamic> likesPostsId;
+  List<String> likesPostsId;
   String role;
   bool isDeleted;
   bool isVerified;
@@ -54,7 +54,7 @@ class User {
       blogsId: List<String>.from(json["blogsId"].map((x) => x)),
       favoriteBlogs: List<dynamic>.from(json["favoriteBlogs"].map((x) => x)),
       followingBlogs: List<String>.from(json["following_blogs"].map((x) => x)),
-      likesPostsId: List<dynamic>.from(json["likes_posts_id"].map((x) => x)),
+      likesPostsId: List<String>.from(json["likes_posts_id"].map((x) => x)),
       role: json["role"],
       isDeleted: json["isDeleted"],
       isVerified: json["isVerified"],

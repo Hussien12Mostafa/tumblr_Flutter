@@ -7,9 +7,10 @@ import 'package:tumbler/date/models/notes.dart';
 
 import 'package:tumbler/date/models/post.dart';
 import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
+import 'package:tumbler/presentation/screens/profile.dart';
+import 'package:tumbler/presentation/screens/profileUser.dart';
 
 import 'package:tumbler/presentation/widget/networkImage.dart';
-
 
 import 'package:tumbler/presentation/widget/report.dart';
 import 'package:tumbler/presentation/widget/rowButtonsPost.dart';
@@ -29,7 +30,10 @@ class ShowPost extends StatefulWidget {
 class _ShowPostState extends State<ShowPost> {
   Blog? blog = null;
   List<Note> notes = [];
-  int counterNotes = 0;
+
+  int counterLike = 0;
+  int counterReBlog = 0;
+  int counterComment = 0;
   Map<String, dynamic>? bbb;
   @override
   void initState() {
@@ -39,22 +43,26 @@ class _ShowPostState extends State<ShowPost> {
   }
 
   _getComment() async {
-    
-    Map<String, dynamic>? note =
-        await getComments(widget.post.id) as Map<String, dynamic>;
-
+    Map<String, dynamic>? note;
+    if (widget.post.notesId != null)
+      note = await getComments(widget.post.notesId!) as Map<String, dynamic>?;
+    print("noteid=${widget.post.notesId}notesssssssssss=$note");
     if (note != null) {
       List<dynamic>? n = note["res"]["notes"];
+
       if (n != null) {
         if (n.length != 0) {
           for (var i = 0; i < n.length; i++) {
-            notes.add(Note.fromJson(n[i]["note"]));
-            if (notes[i].noteType == "like" || notes[i].noteType == "reblog")
-              counterNotes++;
+            notes.add(Note.fromJson(n[i]));
+            if (notes[i].noteType == "comment" &&
+                notes[i].isDeleted == false &&
+                notes[i].text != null) counterComment++;
+            if (notes[i].noteType == "like" && notes[i].isDeleted == false)
+              counterLike++;
+            if (notes[i].noteType == "reblog" && notes[i].isDeleted == false)
+              counterReBlog++;
           }
-         
         }
-        setState(() {});
       }
     }
   }
@@ -62,24 +70,26 @@ class _ShowPostState extends State<ShowPost> {
   _getBlog() async {
     Map<String, dynamic> bb =
         await getBlog(widget.post.blogId) as Map<String, dynamic>;
-    
+
     Map<String, dynamic>? b1 = bb["res"]["data"];
 
     if (b1 != null && b1 != '') {
       blog = Blog.fromJson(b1);
-      print(blog!.avatar);
-      _getComment();
+      await _getComment();
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return blog == null
-        ? CircularProgressIndicator()
+        ? Container()
         : Column(
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                 
+                },
                 child: Row(
                   children: [
                     GetNetworkImage(
@@ -114,7 +124,13 @@ class _ShowPostState extends State<ShowPost> {
               Html(
                 data: widget.post.postHtml,
               ),
-              ButtonsPost(post: widget.post,counterNotes: counterNotes,notes: notes,),
+              ButtonsPost(
+                post: widget.post,
+                counterLike: counterLike,
+                counterReBlog: counterReBlog,
+                notes: notes,
+                counterComment: counterComment,
+              ),
               Container(
                 height: MediaQuery.of(context).size.height * .02,
                 color: Colors.black,

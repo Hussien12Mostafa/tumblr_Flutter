@@ -44,6 +44,8 @@ dependencies:
   http: ^0.13.4
   url_launcher: ^6.0.17
   carousel_slider: ^4.0.0
+  dio: ^4.0.4
+  permission_handler: ^8.3.0
 
 dev_dependencies:
   flutter_test:

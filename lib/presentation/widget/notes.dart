@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttericon/iconic_icons.dart';
+import 'package:tumbler/date/datafake/userInfo.dart';
 import 'package:tumbler/date/models/notes.dart';
+import 'package:tumbler/date/models/post.dart';
 
 import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
 
@@ -28,35 +30,40 @@ class _NotesState extends State<Notes> {
     bool load = false, loadComment = false;
     List<dynamic> l =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    List<Note> notes = l[1];
-    int counterNotes = l[0];
+    int counterComment = l[4];
+    Post post = l[3];
+    List<Note> notes = l[2];
+    int counterReBlog = l[1];
+    int counterLike = l[0];
 
-    Future<String?> _makeComment(String a, String b, String c) async {
+    Future<bool?> _makeComment(String a, String b, String c) async {
       return await makeComment(a, b, c);
     }
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${counterNotes} notes",
+          "${counterLike + counterReBlog } notes",
           style: Theme.of(context).textTheme.headline1,
         ),
         centerTitle: false,
       ),
       body: Column(
         children: [
-          // ButtonsLikesAndReblog(
-          //     commentsPost: commentsPost,
-          //     counts: counts,
-          //     likesUsers: likesUsers,
-          //     reBlogPost: reBlogPost),
+          counterLike + counterReBlog != 0
+              ? ButtonsLikesAndReblog(
+                  notes: notes,
+                  counterLike: counterLike,
+                  counterReBlog: counterReBlog,
+                )
+              : Container(),
           Expanded(
             child: ListView.builder(
               itemCount: notes.length,
               itemBuilder: (Context, index) {
-                if (notes[index].noteType == "comment") {
-                  print(notes[index].text);
-                  return Comments(note: notes[index]);
+                if (notes[notes.length - 1 - index].noteType == "comment" &&
+                    notes[notes.length - 1 - index].text != null) {
+                  return Comments(note: notes[notes.length - 1 - index],post:post);
                 }
                 return Container();
               },
@@ -86,21 +93,24 @@ class _NotesState extends State<Notes> {
                     () async {
                   bool result = commentsCheck(controller.text);
                   if (result) {
-                    // String? s = await _makeComment(
-                    //     "619957113df6b45019c42d06", post.id, controller.text);
-                    //   if (s != null) {
-                    print("add comment");
-                    // commentsPost.add({
-                    //   "commentingBlogId": "619957113df6b45019c42d06",
-                    //   "commentingBlogTitle": "Untitled",
-                    //   "text": controller.text,
-                    //   "_id": "dd"
-                    // });
-                    print("added comment");
-                    controller.clear();
-                    focusNode.unfocus();
-                    setState(() {});
-                    //  }
+                    bool? s = await _makeComment(
+                        userBlodId.id, post.id, controller.text);
+                    if (s != null) {
+                      print("add comment");
+                      
+                      notes.insert(0,Note(
+                        id:"sdasd",
+                        noteType: "comment",
+                        blogId: userBlodId.id,
+                        text: controller.text,
+                        isDeleted: false,
+                      ));
+                      counterComment++;
+                      print("added comment");
+                      controller.clear();
+                      focusNode.unfocus();
+                      setState(() {});
+                    }
                   }
                 },
                 child: Text(

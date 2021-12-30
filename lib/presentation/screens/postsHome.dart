@@ -22,8 +22,7 @@ class Posts extends StatefulWidget {
 /// class for create posts and design them
 class _PostsState extends State<Posts> {
   /// variable for fake data
-  dynamic posts = null;
-  List<Post> p = [];
+  dynamic postsApi = null;
   bool load = false;
 
   /// variable for widget
@@ -36,17 +35,18 @@ class _PostsState extends State<Posts> {
   }
 
   _dashboard() async {
-    Map<String, dynamic> l = await dashboard(token) as Map<String, dynamic>;
+ 
+       Map<String,dynamic>l = await dashboard(token) as Map<String, dynamic>;
+    
     if (l != null) {
-      print("posts=$l");
-      posts = l["res"]["postsToShow"];
+      postsApi = l["res"]["postsToShow"];
 
       blogUser = Blog.fromJson(l["res"]["blog"]);
 
       user = User.fromJson(l["res"]["user"]);
 
-      for (var i = 0; i < posts!.length; i++) {
-        p.add(Post.fromJson(posts![i]));
+      for (var i = 0; i < postsApi!.length; i++) {
+        posts.add(Post.fromJson(postsApi![i]));
       }
 
       setState(() {
@@ -57,7 +57,7 @@ class _PostsState extends State<Posts> {
 
   @override
   Widget build(BuildContext context) {
-    return !load && p.length == 0
+    return !load && posts.length == 0
         ? CircularProgressIndicator()
         : Scaffold(
             floatingActionButton: Wrap(
@@ -65,7 +65,10 @@ class _PostsState extends State<Posts> {
                 FloatingActionButton(
                     backgroundColor: Colors.blue,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(CreatePost.routeName);
+                      Navigator.pushNamed(context, CreatePost.routeName,
+                          arguments: [
+                            "",
+                          ]);
                     },
                     child: Icon(
                       FontAwesome5.pen,
@@ -75,12 +78,17 @@ class _PostsState extends State<Posts> {
             appBar: AppBar(
               title: Text('tumblr'),
             ),
-            body: ListView.builder(
-                itemCount: p.length,
-                itemBuilder: (context, index) {
-                  print("len=${p.length}");
-                  return ShowPost(post: p[index]);
-                }),
-          );
+            body: RefreshIndicator(
+              onRefresh: () async {
+                await _dashboard();
+                setState(() {});
+              },
+              child: ListView.builder(
+                  itemCount: posts.length > 5 ? 5 : posts.length,
+                  itemBuilder: (context, index) {
+                    print("len=${posts.length}");
+                    return ShowPost(post: posts[index]);
+                  }),
+            ));
   }
 }

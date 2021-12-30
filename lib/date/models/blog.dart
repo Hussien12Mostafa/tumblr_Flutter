@@ -35,7 +35,7 @@ class Blog {
   String? headerImage;
   String? background;
   List<dynamic>? blockedBlogs;
-  List<dynamic>? followers;
+  List<String>? followers;
   bool? privacy;
   String name;
   int? updated;
@@ -45,7 +45,7 @@ class Blog {
   bool? isPrimary;
   int? blogVisitor;
   List<dynamic>? followedTags;
-  List<dynamic>? postsIds;
+  List<String>? postsIds;
   bool? isDeleted;
   int? v;
 
@@ -59,7 +59,7 @@ class Blog {
       headerImage: json["headerImage"],
       background: json["background"],
       blockedBlogs: List<dynamic>.from(json["blockedBlogs"].map((x) => x)),
-      followers: List<dynamic>.from(json["followers"].map((x) => x)),
+      followers: List<String>.from(json["followers"].map((x) => x)),
       privacy: json["privacy"],
       name: json["name"],
       updated: json["updated"],
@@ -72,7 +72,7 @@ class Blog {
           ? List<dynamic>.from(json["followedTags"].map((x) => x))
           : null,
       postsIds: json["postsIds"] != null
-          ? List<dynamic>.from(json["postsIds"].map((x) => x))
+          ? List<String>.from(json["postsIds"].map((x) => x))
           : null,
       isDeleted: json["isDeleted"],
       v: json["__v"],
