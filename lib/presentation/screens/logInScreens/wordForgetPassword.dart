@@ -40,12 +40,10 @@ class _EnterPasswordState extends State<wordForgetPassword> {
                 BackButton(color: Colors.white),
                 FlatButton(
                   onPressed: () async {
-                    AutoLoginModel? user = await emailSignIn(_email.text);
+                  
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Login()));
-                    setState(() async {
-                      _user = user;
-                    });
+                  
                   },
                   child: Text('Login',
                       style: TextStyle(

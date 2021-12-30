@@ -59,7 +59,7 @@ void main() {
 
   test('test comment string if under age', () {
     var result = checkAge("10");
-    expect(result,"You're too young for this" );
+    expect(result, "You're too young for this");
   });
 
   test('test comment string if empty do not make anything ', () {
@@ -83,21 +83,21 @@ void main() {
     expect(result, false);
   });
   test('empty editor restults in disabling the post button ', () {
-    var result = isdisabledfunction('');
+    var result = isDisAbleFunction('');
     expect(result, true);
   });
   test('empty editor restults in disabling the post button ', () {
-    var result = isdisabledfunction('');
+    var result = isDisAbleFunction('');
     expect(result, true);
   });
 
   test('null editor restults in disabling the post button ', () {
-    var result = isdisabledfunction(null);
+    var result = isDisAbleFunction(null);
     expect(result, true);
   });
 
   test('Not empty editor restults in enabling the post button ', () {
-    var result = isdisabledfunction('my text');
+    var result = isDisAbleFunction('my text');
     expect(result, false);
   });
 }

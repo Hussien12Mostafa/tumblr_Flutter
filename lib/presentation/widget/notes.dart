@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/iconic_icons.dart';
 import 'package:tumbler/date/datafake/userInfo.dart';
-import 'package:tumbler/date/models/comments.dart';
-import 'package:tumbler/date/models/likesAndReblog.dart';
+import 'package:tumbler/date/models/notes.dart';
 import 'package:tumbler/date/models/post.dart';
+
+import 'package:tumbler/logic/apiBackEnd/functionsAPI.dart';
+
 import 'package:tumbler/logic/functions/commentFieldCheck.dart';
 import 'package:tumbler/presentation/widget/buttonNotesLikesAndReblog.dart';
 import 'package:tumbler/presentation/widget/comments.dart';
@@ -25,25 +27,45 @@ class _NotesState extends State<Notes> {
 
   @override
   Widget build(BuildContext context) {
-    Post p = ModalRoute.of(context)!.settings.arguments as Post;
-    List<CommentsData> commentsData = toList(p.m);
-    List<LikesAndReblog> listOfLikesAndReblog = toListLike(p.likesThisPost);
+    bool load = false, loadComment = false;
+    List<dynamic> l =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    int counterComment = l[4];
+    Post post = l[3];
+    List<Note> notes = l[2];
+    int counterReBlog = l[1];
+    int counterLike = l[0];
+
+    Future<bool?> _makeComment(String a, String b, String c) async {
+      return await makeComment(a, b, c);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${p.numOfLikes + p.numOfReblog} notes",
+          "${counterLike + counterReBlog } notes",
           style: Theme.of(context).textTheme.headline1,
         ),
         centerTitle: false,
       ),
       body: Column(
         children: [
-          ButtonsLikesAndReblog(p: p),
+          counterLike + counterReBlog != 0
+              ? ButtonsLikesAndReblog(
+                  notes: notes,
+                  counterLike: counterLike,
+                  counterReBlog: counterReBlog,
+                )
+              : Container(),
           Expanded(
             child: ListView.builder(
-              itemCount: commentsData.length,
+              itemCount: notes.length,
               itemBuilder: (Context, index) {
-                return Comments(c: commentsData[index]);
+                if (notes[notes.length - 1 - index].noteType == "comment" &&
+                    notes[notes.length - 1 - index].text != null) {
+                  return Comments(note: notes[notes.length - 1 - index],post:post);
+                }
+                return Container();
               },
             ),
           ),
@@ -68,19 +90,28 @@ class _NotesState extends State<Notes> {
                 onPressed:
 
                     /// check text field if empty not add comment if text field has text i add comment
-                    () {
+                    () async {
                   bool result = commentsCheck(controller.text);
                   if (result) {
-                    commentsData.add(
-                        CommentsData(s: currentUser, comment: controller.text));
-                    p.m.addAll({
-                      p.m.length: {currentUser: controller.text}
-                    });
-                    controller.clear();
-                    focusNode.unfocus();
-                    setState(() {});
+                    bool? s = await _makeComment(
+                        userBlodId.id, post.id, controller.text);
+                    if (s != null) {
+                      print("add comment");
+                      
+                      notes.insert(0,Note(
+                        id:"sdasd",
+                        noteType: "comment",
+                        blogId: userBlodId.id,
+                        text: controller.text,
+                        isDeleted: false,
+                      ));
+                      counterComment++;
+                      print("added comment");
+                      controller.clear();
+                      focusNode.unfocus();
+                      setState(() {});
+                    }
                   }
-                  
                 },
                 child: Text(
                   'Reply',
