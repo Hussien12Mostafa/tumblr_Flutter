@@ -62,7 +62,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   _showPostLike(List<String> postsUser) async {
     List<Map<String, dynamic>?> postsMap = [];
     for (var i = 0; i < postsUser.length; i++) {
-      postsMap.add(await showPosts(postsUser[i]) as Map<String, dynamic>);
+      postsMap.add(await showPosts(postsUser[i]) as Map<String, dynamic>?);
     }
     for (var i = 0; i < postsUser.length; i++) {
       if (postsMap[i] != null)
